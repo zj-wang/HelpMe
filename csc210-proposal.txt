@@ -1,0 +1,21 @@
+Team
+Minh Quang Tran
+Yifan Zhang
+Jenny Wang
+
+CSC 210 Project Milestone 1: Proposal
+
+What is the proposed name for your Web application? (Make your GitHub repository name similar to your project name.)
+    Help Me
+    
+Who is the target audience for your Web application?
+     Everybody. Specifically those who have small tasks that can be delegated to others and those who wish to do small tasks for extra income.
+    
+What problem is it intended to solve for that audience?
+This will become a marketplace for people to trade currency and labor. It can be for unwanted chores such as lawn mowing or moving furniture or even find test subjects for research. On the other side, it will help people who have extra time to make some money.
+
+How will it meet the minimum project requirements?
+This website will require people to create accounts. They will read and update each others profiles as well as task postings. They may also delete unwanted postings or even their own account.
+    
+Why is your proposed Web application unique or creative beyond simply meeting the minimum requirements?
+    At its core, it is a web app where people can post or take small jobs. Beyond meeting the minimum requirement, it will also incorporate economic and social aspects. It will facilitate “trading” in a sense between people. We will also implement a feedback or rating system for users.
