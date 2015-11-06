@@ -1,0 +1,82 @@
+<head>
+  <title>Help Me</title>
+</head>
+
+<template name="main">
+    <h1>HelpMe</h1>
+    {{> navigation}}
+	 {{> jobs}}
+    {{> yield}} <!-- where contents of the route should be -->
+    <hr />
+    <p>Copyright &copy; HelpMe</p>
+</template>
+
+<template name="navigation">
+	<ul>
+		<li><a href="{{pathFor route='home'}}">Home</a></li>
+		{{#if currentUser}}
+			<li><a href="#" class="logout">Logout</a></li>
+		{{else}}
+			<li><a href="{{pathFor route='register'}}">Register</a></li>
+			<li><a href="{{pathFor route='login'}}">Login</a></li>
+		{{/if}}
+	</ul>
+</template>
+
+<template name="home">
+    <p>home</p>
+</template>
+
+<template name="register">
+    <h2>Register</h2>
+    <form class="register">
+        <p>Email: <input type="email" name="email"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Register"></p>
+    </form>
+</template>
+
+<template name="login">
+    <h2>Login</h2>
+    <form class="login">
+        <p>Email: <input type="email" name="email"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Login"></p>
+    </form>
+</template>
+
+<template name="jobPage">
+    <h2>Tasks: {{name}}</h2>
+    {{> todos}}
+</template>
+
+<template name="jobs">
+    <h2>Jobs</h2>
+    {{> addjob}}
+<ul>
+    {{#each job}}
+        <li><a href="/job/{{_id}}">{{name}}</a></li>
+    {{/each}}
+</ul>
+
+</template>
+
+<template name="addjob">
+    <form>Create a job:
+        <input type="text" placeholder="job name here..." name="jobName">
+    </form>
+</template>
+
+<template name="todos">
+    <p>{{_id}}</p>
+    {{> addTodo}}
+    <ul>
+    {{#each todo}}
+        {{> todoItem}}
+    {{/each}}
+    </ul>
+    {{> todosCount}}
+</template>
+
+
+
