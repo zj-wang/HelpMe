@@ -1,10 +1,12 @@
-<head>
-  <title>Help Me</title>
-</head>
-
 <template name="main">
+	<head>
+	  <title>Help Me</title>
+	</head>
     <h1>HelpMe</h1>
     {{> navigation}}
+	{{#if currentUser}}
+        {{> lists}}
+    {{/if}}
     {{> yield}} <!-- where contents of the route should be -->
     <hr />
     <p>Copyright &copy; HelpMe</p>
@@ -23,7 +25,7 @@
 </template>
 
 <template name="home">
-    <p>home</p>
+    <p>At home page.</p>
 </template>
 
 <template name="register">
@@ -43,5 +45,51 @@
         <p><input type="submit" value="Login"></p>
     </form>
 </template>
+
+<template name="listPage">
+    <h2>Available jobs in {{name}}</h2>
+    {{> jobs}}
+</template>
+
+<template name="addList">
+    <form>Create a job list:
+        <input type="text" placeholder="Job list name here..." name="listName">
+    </form>
+</template>
+
+<template name="lists">
+    <h2>Lists</h2>
+    {{> addList}}
+	<ul>
+		{{#each list}}
+			<li><a href="{{pathFor route='listPage'}}">{{name}}</a></li>
+		{{/each}}
+	</ul>
+</template>
+
+<template name="jobs">
+    {{> addJob}}
+    <ul>
+    {{#each job}}
+        {{> jobItem}}
+    {{/each}}
+    </ul>
+</template>
+
+<template name="jobItem">
+    <li class="{{checked}}">
+        <input type="checkbox" {{checked}}>
+        <input type="text" value="{{name}}" name="jobItem">
+        [<a href="#" class="delete-job">Delete</a>]
+    </li>
+</template>
+
+<template name="addJob">
+    <form>
+        Create a job:
+        <input type="text" placeholder="Type a job here..." name="jobName">
+    </form>
+</template>
+
 
 
