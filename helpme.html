@@ -25,7 +25,11 @@
 </template>
 
 <template name="home">
+    {{#if currentUser}}
+    <p>Welcome back! You are logged in.</p>
+    {{else}}
     <p>At home page.</p>
+    {{/if}}
 </template>
 
 <template name="register">
