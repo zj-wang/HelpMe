@@ -51,6 +51,33 @@ if (Meteor.isClient) {
 		}
 	});
 
+	//function to get all the lists
+	Template.lists.helpers({
+		'list' : function () {
+			var currentUser = Meteor.userId();
+			return Lists.find({}, {
+				sort : {
+					name : 1
+				}
+			});
+		}
+	});
+
+	//function to get all the jobs
+	Template.jobs.helpers({
+		'job' : function () {
+			var currentList = this._id;
+			return Jobs.find({
+				listId : currentList
+			}, {
+				sort : {
+					createdAt : -1
+				}
+			})
+		}
+	});
+
+	//function to add a list
 	Template.addList.events({
 		'submit form' : function (event) {
 			event.preventDefault();
@@ -69,29 +96,7 @@ if (Meteor.isClient) {
 
 	});
 
-	Template.lists.helpers({
-		'list' : function () {
-			return Lists.find({}, {
-				sort : {
-					name : 1
-				}
-			});
-		}
-	});
-
-	Template.jobs.helpers({
-		'job' : function () {
-			var currentList = this._id;
-			return Jobs.find({
-				listId : currentList
-			}, {
-				sort : {
-					createdAt : -1
-				}
-			})
-		}
-	});
-
+	//function to add a job
 	Template.addJob.events({
 		// events go here
 
@@ -112,6 +117,7 @@ if (Meteor.isClient) {
 
 	});
 
+	//delete job, update job, check job function
 	Template.jobItem.events({
 		// events go here
 
@@ -166,6 +172,7 @@ if (Meteor.isClient) {
 
 	});
 
+	
 	Template.jobItem.helpers({
 		'checked' : function () {
 			var isCompleted = this.completed;
