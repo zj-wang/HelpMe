@@ -19,3 +19,5 @@ This website will require people to create accounts. They will read and update e
     
 Why is your proposed Web application unique or creative beyond simply meeting the minimum requirements?
     At its core, it is a web app where people can post or take small jobs. Beyond meeting the minimum requirement, it will also incorporate economic and social aspects. It will facilitate “trading” in a sense between people. We will also implement a feedback or rating system for users.
+    
+    https://docs.google.com/presentation/d/16--rzDzow3SOGTcUYjkXmgm0QubHQYD1rgeqorH4dLk/edit#slide=id.geb4faf533_2_82
