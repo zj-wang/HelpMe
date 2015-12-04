@@ -181,6 +181,22 @@ if (Meteor.isClient) {
 			}
 		}
 	});
+	
+	Template.profile.helpers({
+		'id' : function () {
+			return Meteor.user()._id;
+		}
+	});
+	
+	Template.addFeedback.events({
+		'submit form' : function (event) {
+			event.preventDefault();
+			var rating = $('[name=rating').val();
+			console.log(Meteor.user());
+			Meteor.users.update(Meteor.user(), {$set: {"profile.rating": rating}} );
+		}
+	});
+
 
 }
 

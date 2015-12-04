@@ -4,7 +4,6 @@
 	</head>
     <h1>HelpMe</h1>
     {{> navigation}}
-    
     {{> yield}} <!-- where contents of the route should be -->
     <hr />
     <p>Copyright &copy; HelpMe</p>
@@ -24,7 +23,7 @@
 </template>
 
 <template name="home">
-	{{> lists}}
+    {{> lists}}
 	{{#if currentUser}}
     <p>Welcome back! You are logged in.</p>
 	{{else}}
@@ -51,6 +50,7 @@
 </template>
 
 <template name="listPage">
+    {{> lists}}
     <h2>Available jobs in {{name}}</h2>
     {{> jobs}}
 </template>
@@ -62,23 +62,15 @@
 </template>
 
 <template name="lists">
-	{{#if currentUser}}
 	<h2>Job Categories</h2>
+	{{#if currentUser}}
 	{{> addList}}
+	{{/if}}
 	<ul>
 		{{#each list}}
 			<li><a href="{{pathFor route='listPage'}}">{{name}}</a></li>
 		{{/each}}
 	</ul>
-	{{else}}
-	<h4>Jobs available in the following categories</h4>
-	<ul>
-		{{#each list}}
-			<li>{{name}}</li>
-		{{/each}}
-	</ul>
-	Log in now to see jobs!
-	{{/if}}
 </template>
 
 <template name="jobs">
@@ -106,15 +98,21 @@
 </template>
 
 <template name="profile">
-	{{#with profile}}
-		first name: {{firstname}}
-		last name:	{{lastname}}
-	{{/with}}
-	
-	for feedback,
-	posted jobs,
-	completed jobs
+	id: {{id}}
+	<br>
+	{{> feedback}}	
+	<br>
+	{{> addFeedback}}
 </template>
 
+<template name="addFeedback">
+	<form class="feedback">
+		Rate this user from 1-10: <input type="rating" name ="rating">
+		<input type="submit" value="Submit Feedback">
+    </form>
+</template>
 
+<template name="feedback">
+	avg rating is:
+</template>
 
