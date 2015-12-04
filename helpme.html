@@ -4,9 +4,7 @@
 	</head>
     <h1>HelpMe</h1>
     {{> navigation}}
-	{{#if currentUser}}
-        {{> lists}}
-    {{/if}}
+    
     {{> yield}} <!-- where contents of the route should be -->
     <hr />
     <p>Copyright &copy; HelpMe</p>
@@ -16,6 +14,7 @@
 	<ul>
 		<li><a href="{{pathFor route='home'}}">Home</a></li>
 		{{#if currentUser}}
+			<li><a href="{{pathFor route ='profile'}}">Profile</a></li>
 			<li><a href="#" class="logout">Logout</a></li>
 		{{else}}
 			<li><a href="{{pathFor route='register'}}">Register</a></li>
@@ -25,11 +24,12 @@
 </template>
 
 <template name="home">
-    {{#if currentUser}}
+	{{> lists}}
+	{{#if currentUser}}
     <p>Welcome back! You are logged in.</p>
-    {{else}}
-    <p>At home page.</p>
-    {{/if}}
+	{{else}}
+	<p>At home page.</p>
+	{{/if}}
 </template>
 
 <template name="register">
@@ -62,13 +62,23 @@
 </template>
 
 <template name="lists">
-    <h2>Lists</h2>
-    {{> addList}}
+	{{#if currentUser}}
+	<h2>Job Categories</h2>
+	{{> addList}}
 	<ul>
 		{{#each list}}
 			<li><a href="{{pathFor route='listPage'}}">{{name}}</a></li>
 		{{/each}}
 	</ul>
+	{{else}}
+	<h4>Jobs available in the following categories</h4>
+	<ul>
+		{{#each list}}
+			<li>{{name}}</li>
+		{{/each}}
+	</ul>
+	Log in now to see jobs!
+	{{/if}}
 </template>
 
 <template name="jobs">
@@ -93,6 +103,17 @@
         Create a job:
         <input type="text" placeholder="Type a job here..." name="jobName">
     </form>
+</template>
+
+<template name="profile">
+	{{#with profile}}
+		first name: {{firstname}}
+		last name:	{{lastname}}
+	{{/with}}
+	
+	for feedback,
+	posted jobs,
+	completed jobs
 </template>
 
 

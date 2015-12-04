@@ -51,33 +51,6 @@ if (Meteor.isClient) {
 		}
 	});
 
-	//function to get all the lists
-	Template.lists.helpers({
-		'list' : function () {
-			var currentUser = Meteor.userId();
-			return Lists.find({}, {
-				sort : {
-					name : 1
-				}
-			});
-		}
-	});
-
-	//function to get all the jobs
-	Template.jobs.helpers({
-		'job' : function () {
-			var currentList = this._id;
-			return Jobs.find({
-				listId : currentList
-			}, {
-				sort : {
-					createdAt : -1
-				}
-			})
-		}
-	});
-
-	//function to add a list
 	Template.addList.events({
 		'submit form' : function (event) {
 			event.preventDefault();
@@ -96,7 +69,32 @@ if (Meteor.isClient) {
 
 	});
 
-	//function to add a job
+	Template.lists.helpers({
+		'list' : function () {
+			return Lists.find({}, {
+				sort : {
+					name : 1
+				}
+			});
+		}
+	});
+
+	Template.jobs.helpers({
+		'job' : function () {
+			var currentList = this._id;
+			console.log(this._id);
+			console.log(this.listName);
+			console.log(this.name);
+			return Jobs.find({
+				listId : currentList
+			}, {
+				sort : {
+					createdAt : -1
+				}
+			})
+		}
+	});
+
 	Template.addJob.events({
 		// events go here
 
@@ -105,19 +103,20 @@ if (Meteor.isClient) {
 			var jobName = $('[name="jobName"]').val();
 			var currentUser = Meteor.userId();
 			var currentList = this._id;
+		//	var currentListName = this.name;
 			Jobs.insert({
 				name : jobName,
 				completed : false,
 				createdAt : new Date(),
 				createdBy : currentUser,
-				listId : currentList
+				listId : currentList,
+			//	listname : currentListName
 			});
 			$('[name="jobName"]').val('');
 		}
 
 	});
 
-	//delete job, update job, check job function
 	Template.jobItem.events({
 		// events go here
 
@@ -133,7 +132,7 @@ if (Meteor.isClient) {
 		},
 
 		'keyup [name=jobItem]' : function (event) {
-			if (event.which == 13 || event.which == 27) {
+			if (event.which == 13 || event.which == 27) {	//13 is enter key event, 27 is escape key event
 				$(event.target).blur();
 			} else {
 				var documentId = this._id;
@@ -172,7 +171,6 @@ if (Meteor.isClient) {
 
 	});
 
-	
 	Template.jobItem.helpers({
 		'checked' : function () {
 			var isCompleted = this.completed;
@@ -226,4 +224,22 @@ Router.route('/list/:_id', {
 		}
 	}
 });
+Router.route('/profile');
 
+/*Router.route("/profile/:email",{
+	name:"profile",
+	//controller:"ProfileController"
+});
+
+ProfileController=RouteController.extend({
+    template:"profile",
+    waitOn:function(){
+        return Meteor.subscribe("userProfile",this.params.email);
+    },
+    data:function(){
+        var email=Router.current().params.email;
+        return Meteor.users.findOne({
+            email:email
+        });
+    }
+})*/
