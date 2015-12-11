@@ -1,3 +1,4 @@
+<div class="container">
 <template name="main">
 	<head>
 	  <title>Help Me</title>
@@ -10,6 +11,7 @@
 </template>
 
 <template name="navigation">
+	<nav>
 	<ul>
 		<li><a href="{{pathFor route='home'}}">Home</a></li>
 		{{#if currentUser}}
@@ -20,8 +22,10 @@
 			<li><a href="{{pathFor route='login'}}">Login</a></li>
 		{{/if}}
 	</ul>
+	</nav>
 </template>
 
+<article>
 <template name="home">
 	{{#if currentUser}}
 	{{> lists}}
@@ -29,24 +33,6 @@
 	{{else}}
 	<p>At home page. Please register or login.</p>
 	{{/if}}
-</template>
-
-<template name="register">
-    <h2>Register</h2>
-    <form class="register">
-        <p>Email: <input type="email" name="email"></p>
-        <p>Password: <input type="password" name="password"></p>
-        <p><input type="submit" value="Register"></p>
-    </form>
-</template>
-
-<template name="login">
-    <h2>Login</h2>
-    <form class="login">
-        <p>Email: <input type="email" name="email"></p>
-        <p>Password: <input type="password" name="password"></p>
-        <p><input type="submit" value="Login"></p>
-    </form>
 </template>
 
 <template name="listPage">
@@ -208,3 +194,27 @@
 
   </body>
 </template>
+</article>
+
+<aside>
+	
+<template name="register">
+    <h2>Register</h2>
+    <form class="register">
+        <p>Email: <input type="email" name="email"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Register"></p>
+    </form>
+</template>
+
+<template name="login">
+    <h2>Login</h2>
+    <form class="login">
+        <p>Email: <input type="email" name="email"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Login"></p>
+    </form>
+</template>
+</aside>
+
+</div>
