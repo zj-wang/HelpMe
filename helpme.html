@@ -98,10 +98,6 @@
     <p>Created by:
 	<a href="{{pathFor route='othersProfile'}}">{{createdBy}}</a> </p>
 	
-	{{#if self}}
-	{{else}}
-	{{/if}}
-	
 	<p>Description: {{description}}</p>
 	<li class="{{checked}}">
 		Completed?
@@ -113,6 +109,7 @@
 	id: {{id}} <br>
     firstname: {{firstname}} <br>
     lastname: {{lastname}} <br>
+    location: {{location}} <br>
 	
 	{{> feedback}} <br>
 	{{> addFeedback}} <br>
@@ -122,6 +119,7 @@
 	id: {{id}} <br>
     firstname: {{firstname}} <br>
     lastname: {{lastname}} <br>
+    location: {{location}} <br>
     {{> map}}
     <br>
     {{> updateUserInfo}} <br>
@@ -141,6 +139,7 @@
     <form class="update">
         first name: <input type="text" name ="firstname">
         last name: <input type="text" name = "lastname">
+        location: <input type="text" name = "location">
         <input type="submit" value="Update">
     </form>
 </template>   

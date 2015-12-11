@@ -12,7 +12,7 @@ if (Meteor.isClient) {
   		mapOptions: function() {
     		if (GoogleMaps.loaded()) {
       			return {
-        			center: new google.maps.LatLng(-37.8136, 144.9631),
+        			center: new google.maps.LatLng(43.1854445, -77.6865426),
         			zoom: 8
       			};
    			}
@@ -179,13 +179,6 @@ Markers.find().observe({
 		}
 	});
 	
-	Template.jobPage.helpers({
-		'self' : function () {
-			var currentUser = Meteor.userId();
-			
-			return 
-		}
-	});
 	Template.jobPage.events({
 		// events go here
 
@@ -264,6 +257,11 @@ Markers.find().observe({
 			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
 			last = Userinfo.find({userId:Meteor.userId()}).fetch()[i].lastname;
 			return last;
+		},
+		'location' : function() {
+			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
+			loc = Userinfo.find({userId:Meteor.userId()}).fetch()[i].location;
+			return loc;
 		}
 	});
 	
@@ -281,6 +279,11 @@ Markers.find().observe({
 			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
 			last = Userinfo.find({userId:Meteor.userId()}).fetch()[i].lastname;
 			return last;
+		},
+		'location' : function() {
+			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
+			loc = Userinfo.find({userId:Meteor.userId()}).fetch()[i].location;
+			return loc;
 		}
 	});
 	
@@ -320,9 +323,11 @@ Markers.find().observe({
 			var currentUser = Meteor.userId();
 			var firstname = $('[name=firstname]').val();
 			var lastname = $('[name=lastname]').val();
+			var location = $('[name=location]').val();
 			Userinfo.insert({
 				firstname : firstname,
 				lastname : lastname,
+				location : location,
 				userId : currentUser
 			}, function (error, results) {
 				Router.go('profile',{
