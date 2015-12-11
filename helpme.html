@@ -27,11 +27,11 @@
 
 <article>
 <template name="home">
+    {{> lists}}
 	{{#if currentUser}}
-	{{> lists}}
     <p>Welcome back! You are logged in.</p>
 	{{else}}
-	<p>At home page. Please register or login.</p>
+	<p>At home page.</p>
 	{{/if}}
 </template>
 
@@ -41,14 +41,20 @@
     {{> jobs}}
 </template>
 
+<template name="addList">
+    <form>Create a job list:
+        <input type="text" placeholder="Job list name here..." name="listName">
+    </form>
+</template>
+
 <template name="lists">
-	<h2>Job List</h2>
+	<h2>Job Categories</h2>
 	{{#if currentUser}}
-	{{> addJob}}
+	{{> addList}}
 	{{/if}}
 	<ul>
-		{{#each job}}
-			<li><a href="{{pathFor route='jobPage'}}">{{name}}</a></li>
+		{{#each list}}
+			<li><a href="{{pathFor route='listPage'}}">{{name}}</a></li>
 		{{/each}}
 	</ul>
 </template>
@@ -71,69 +77,32 @@
 </template>
 
 <template name="addJob">
-	<form class="addJob">
-        <p>Job Name: <input type="jobName" name="jobName"></p>
-        <p>Category: <input type="category" name="category"></p>
-        <p>Description: <input type="description" name="description"></p>
-        <p><input type="submit" value="Add Job"></p>
+    <form>
+        Create a job:
+        <input type="text" placeholder="Type a job here..." name="jobName">
     </form>
 </template>
 
-<template name="jobPage">
-	<p>Name: {{name}}</p>
-    <p>Created by:
-	<a href="{{pathFor route='othersProfile'}}">{{createdBy}}</a> </p>
-	
-	{{#if self}}
-	{{else}}
-	{{/if}}
-	
-	<p>Description: {{description}}</p>
-	<li class="{{checked}}">
-		Completed?
-        [<a href="#" class="delete-job">Delete</a>]
-    </li>
-</template>
-
-<template name="othersProfile">
-	id: {{id}} <br>
-    firstname: {{firstname}} <br>
-    lastname: {{lastname}} <br>
-	
-	{{> feedback}} <br>
-	{{> addFeedback}} <br>
-</template>
-
 <template name="profile">
-	id: {{id}} <br>
-    firstname: {{firstname}} <br>
-    lastname: {{lastname}} <br>
-    <br>
-    {{> updateUserInfo}} <br>
-	{{> feedback}} <br>
-	
-	{{> addFeedback}} <br>
+	id: {{id}}
+	<br>
+	{{> feedback}}	
+	<br>
+	{{> addFeedback}}
 </template>
 
 <template name="addFeedback">
 	<form class="feedback">
-		please provide feedback to the user: <input type="text" name ="comment">
+		Rate this user from 1-10: <input type="rating" name ="rating">
 		<input type="submit" value="Submit Feedback">
     </form>
 </template>
 
-<template name="updateUserInfo">
-    <form class="update">
-        first name: <input type="text" name ="firstname">
-        last name: <input type="text" name = "lastname">
-        <input type="submit" value="Update">
-    </form>
-</template>   
-
 <template name="feedback">
-	Feedbacks: {{comment}}
+	avg rating is:
 </template>
 
+<<<<<<< HEAD
 <template name="map">
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxSPW5CJgpdgO_s4yyMovOaVh_KvvhSfpvagV18eOyDWu7VytS6Bi1CWxw"
       type="text/javascript"></script>
@@ -218,3 +187,5 @@
 </aside>
 
 </div>
+=======
+>>>>>>> parent of b661637... Updates
