@@ -1,5 +1,6 @@
-Jobs = new Mongo.Collection('jobs');
-Lists = new Meteor.Collection('lists');
+Jobs = new Meteor.Collection('jobs');
+Comments = new Meteor.Collection('comments');
+Userinfo = new Meteor.Collection('userinfo');
 
 if (Meteor.isClient) {
 
@@ -51,7 +52,7 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Template.addList.events({
+	/*Template.addList.events({
 		'submit form' : function (event) {
 			event.preventDefault();
 			var listName = $('[name=listName]').val();
@@ -67,11 +68,11 @@ if (Meteor.isClient) {
 			$('[name=listName]').val('');
 		}
 
-	});
+	});*/
 
 	Template.lists.helpers({
-		'list' : function () {
-			return Lists.find({}, {
+		'job' : function () {
+			return Jobs.find({}, {
 				sort : {
 					name : 1
 				}
@@ -79,7 +80,7 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Template.jobs.helpers({
+	/*Template.jobs.helpers({
 		'job' : function () {
 			var currentList = this._id;
 			console.log(this._id);
@@ -93,31 +94,39 @@ if (Meteor.isClient) {
 				}
 			})
 		}
-	});
+	});*/
 
 	Template.addJob.events({
-		// events go here
-
 		'submit form' : function (event) {
 			event.preventDefault();
 			var jobName = $('[name="jobName"]').val();
 			var currentUser = Meteor.userId();
-			var currentList = this._id;
-		//	var currentListName = this.name;
+			var category = $('[name="category"]').val();
+			var description = $('[name="description"]').val();
 			Jobs.insert({
 				name : jobName,
 				completed : false,
 				createdAt : new Date(),
 				createdBy : currentUser,
-				listId : currentList,
-			//	listname : currentListName
+				category : category,
+				description : description
+			}, function (error, results) {
+				Router.go('jobPage', {
+					_id : results
+				});
 			});
 			$('[name="jobName"]').val('');
 		}
-
 	});
-
-	Template.jobItem.events({
+	
+	Template.jobPage.helpers({
+		'self' : function () {
+			var currentUser = Meteor.userId();
+			
+			return 
+		}
+	});
+	Template.jobPage.events({
 		// events go here
 
 		'click .delete-job' : function (event) {
@@ -131,7 +140,7 @@ if (Meteor.isClient) {
 			}
 		},
 
-		'keyup [name=jobItem]' : function (event) {
+		/*'keyup [name=jobItem]' : function (event) {
 			if (event.which == 13 || event.which == 27) {	//13 is enter key event, 27 is escape key event
 				$(event.target).blur();
 			} else {
@@ -145,7 +154,7 @@ if (Meteor.isClient) {
 					}
 				});
 			}
-		},
+		},*/
 
 		'change [type=checkbox]' : function () {
 			var documentId = this._id;
@@ -182,22 +191,108 @@ if (Meteor.isClient) {
 		}
 	});
 	
+	Template.othersProfile.helpers({
+		'id' : function () {
+			return Meteor.user()._id;
+		},
+		'firstname' : function() {
+			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
+			first = Userinfo.find({userId:Meteor.userId()}).fetch()[i].firstname;
+			return first;
+		},
+		'lastname' : function() {
+			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
+			last = Userinfo.find({userId:Meteor.userId()}).fetch()[i].lastname;
+			return last;
+		}
+	});
+	
+	
 	Template.profile.helpers({
 		'id' : function () {
 			return Meteor.user()._id;
+		},
+		'firstname' : function() {
+			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
+			first = Userinfo.find({userId:Meteor.userId()}).fetch()[i].firstname;
+			return first;
+		},
+		'lastname' : function() {
+			for (i=0;i<Userinfo.find({userId:Meteor.userId()}).count();i++)
+			last = Userinfo.find({userId:Meteor.userId()}).fetch()[i].lastname;
+			return last;
 		}
 	});
 	
 	Template.addFeedback.events({
 		'submit form' : function (event) {
 			event.preventDefault();
-			var rating = $('[name=rating').val();
-			console.log(Meteor.user());
-			Meteor.users.update(Meteor.user(), {$set: {"profile.rating": rating}} );
+			var comment = $('[name=comment]').val();
+			var currentUser = Meteor.userId();
+			Comments.insert({
+				Content : comment,
+				userId : currentUser
+			}, function (error, results){
+				Router.go('profile',{
+					_id: results
+				});
+			});
+			$('[name=comment]').val('');
+
 		}
 	});
 
+	Template.feedback.helpers({
+		'comment' : function(){
+			console.log(Meteor.userId());
+			console.log(Comments.find({userId:Meteor.userId()}).fetch);
+			text="";
+			for (i=0;i<Comments.find({userId:Meteor.userId()}).count();i++)
+				text += Comments.find({userId:Meteor.userId()}).fetch()[i].Content + " ; ";
+			return text;
+		}
+	});
 
+	Template.updateUserInfo.events({
+		'submit form' : function (event) {
+			console.log("here");
+			event.preventDefault();
+			var currentUser = Meteor.userId();
+			var firstname = $('[name=firstname]').val();
+			var lastname = $('[name=lastname]').val();
+			Userinfo.insert({
+				firstname : firstname,
+				lastname : lastname,
+				userId : currentUser
+			}, function (error, results) {
+				Router.go('profile',{
+					_id: results
+				});
+			});
+			$('[name=firstname]').val('');
+			$('[name=lastname]').val('');
+		}
+	});
+	
+	Template.profile.events({
+		'keyup [name=firstname]' : function (event) {
+			if (event.which == 13 || event.which == 27) {	//13 is enter key event, 27 is escape key event
+				$(event.target).blur();
+			} else {
+				var documentId = this._id;
+				var profile = $(event.target).val();
+				console.log(profile);
+				console.log(documentId);
+				Meteor.users.update({
+					_id : documentId
+				}, {
+					$set : {
+						firstname : profile
+					}
+				});
+			}
+		}
+	});
 }
 
 if (Meteor.isServer) {
@@ -218,16 +313,22 @@ Router.route('/', {
 	template : 'home' // manually defining association with home template
 });
 
+Router.route('/users/:_id',{
+	name: 'othersProfile',
+	template: 'othersProfile'
+});
 Router.route('/register'); //auto associates route with template of same name
 Router.route('/login');
-Router.route('/list/:_id', {
-	name : 'listPage',
-	template : 'listPage',
+Router.route('/job/:_id', {
+	name : 'jobPage',
+	template : 'jobPage',
 	data : function () {
-		var currentList = this.params._id;
+		var currentJob = this.params._id;
+		//var name = this.params
 		var currentUser = Meteor.userId();
-		return Lists.findOne({
-			_id : currentList,
+		return Jobs.findOne({
+			_id : currentJob,
+		//	name : 
 			createdBy : currentUser
 		});
 	},
@@ -241,21 +342,3 @@ Router.route('/list/:_id', {
 	}
 });
 Router.route('/profile');
-
-/*Router.route("/profile/:email",{
-	name:"profile",
-	//controller:"ProfileController"
-});
-
-ProfileController=RouteController.extend({
-    template:"profile",
-    waitOn:function(){
-        return Meteor.subscribe("userProfile",this.params.email);
-    },
-    data:function(){
-        var email=Router.current().params.email;
-        return Meteor.users.findOne({
-            email:email
-        });
-    }
-})*/

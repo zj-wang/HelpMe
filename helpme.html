@@ -1,4 +1,3 @@
-<div class="container">
 <template name="main">
 	<head>
 	  <title>Help Me</title>
@@ -11,7 +10,6 @@
 </template>
 
 <template name="navigation">
-	<nav>
 	<ul>
 		<li><a href="{{pathFor route='home'}}">Home</a></li>
 		{{#if currentUser}}
@@ -22,17 +20,33 @@
 			<li><a href="{{pathFor route='login'}}">Login</a></li>
 		{{/if}}
 	</ul>
-	</nav>
 </template>
 
-<article>
 <template name="home">
-    {{> lists}}
 	{{#if currentUser}}
+	{{> lists}}
     <p>Welcome back! You are logged in.</p>
 	{{else}}
-	<p>At home page.</p>
+	<p>At home page. Please register or login.</p>
 	{{/if}}
+</template>
+
+<template name="register">
+    <h2>Register</h2>
+    <form class="register">
+        <p>Email: <input type="email" name="email"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Register"></p>
+    </form>
+</template>
+
+<template name="login">
+    <h2>Login</h2>
+    <form class="login">
+        <p>Email: <input type="email" name="email"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Login"></p>
+    </form>
 </template>
 
 <template name="listPage">
@@ -41,20 +55,14 @@
     {{> jobs}}
 </template>
 
-<template name="addList">
-    <form>Create a job list:
-        <input type="text" placeholder="Job list name here..." name="listName">
-    </form>
-</template>
-
 <template name="lists">
-	<h2>Job Categories</h2>
+	<h2>Job List</h2>
 	{{#if currentUser}}
-	{{> addList}}
+	{{> addJob}}
 	{{/if}}
 	<ul>
-		{{#each list}}
-			<li><a href="{{pathFor route='listPage'}}">{{name}}</a></li>
+		{{#each job}}
+			<li><a href="{{pathFor route='jobPage'}}">{{name}}</a></li>
 		{{/each}}
 	</ul>
 </template>
@@ -77,34 +85,69 @@
 </template>
 
 <template name="addJob">
-    <form>
-        Create a job:
-        <input type="text" placeholder="Type a job here..." name="jobName">
+	<form class="addJob">
+        <p>Job Name: <input type="jobName" name="jobName"></p>
+        <p>Category: <input type="category" name="category"></p>
+        <p>Description: <input type="description" name="description"></p>
+        <p><input type="submit" value="Add Job"></p>
     </form>
 </template>
 
+<template name="jobPage">
+	<p>Name: {{name}}</p>
+    <p>Created by:
+	<a href="{{pathFor route='othersProfile'}}">{{createdBy}}</a> </p>
+	
+	{{#if self}}
+	{{else}}
+	{{/if}}
+	
+	<p>Description: {{description}}</p>
+	<li class="{{checked}}">
+		Completed?
+        [<a href="#" class="delete-job">Delete</a>]
+    </li>
+</template>
+
+<template name="othersProfile">
+	id: {{id}} <br>
+    firstname: {{firstname}} <br>
+    lastname: {{lastname}} <br>
+	
+	{{> feedback}} <br>
+	{{> addFeedback}} <br>
+</template>
+
 <template name="profile">
-	id: {{id}}
-	<br>
-	{{> feedback}}	
-	<br>
-	{{> addFeedback}}
+	id: {{id}} <br>
+    firstname: {{firstname}} <br>
+    lastname: {{lastname}} <br>
+    <br>
+    {{> updateUserInfo}} <br>
+	{{> feedback}} <br>
+	
+	{{> addFeedback}} <br>
 </template>
 
 <template name="addFeedback">
 	<form class="feedback">
-		Rate this user from 1-10: <input type="rating" name ="rating">
+		please provide feedback to the user: <input type="text" name ="comment">
 		<input type="submit" value="Submit Feedback">
     </form>
 </template>
 
+<template name="updateUserInfo">
+    <form class="update">
+        first name: <input type="text" name ="firstname">
+        last name: <input type="text" name = "lastname">
+        <input type="submit" value="Update">
+    </form>
+</template>   
+
 <template name="feedback">
-	avg rating is:
+	Feedbacks: {{comment}}
 </template>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <template name="map">
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxSPW5CJgpdgO_s4yyMovOaVh_KvvhSfpvagV18eOyDWu7VytS6Bi1CWxw"
       type="text/javascript"></script>
@@ -165,33 +208,3 @@
 
   </body>
 </template>
-</article>
-
-<aside>
-	
-<template name="register">
-    <h2>Register</h2>
-    <form class="register">
-        <p>Email: <input type="email" name="email"></p>
-        <p>Password: <input type="password" name="password"></p>
-        <p><input type="submit" value="Register"></p>
-    </form>
-</template>
-
-<template name="login">
-    <h2>Login</h2>
-    <form class="login">
-        <p>Email: <input type="email" name="email"></p>
-        <p>Password: <input type="password" name="password"></p>
-        <p><input type="submit" value="Login"></p>
-    </form>
-</template>
-</aside>
-
-</div>
-=======
->>>>>>> parent of b661637... Updates
-=======
->>>>>>> parent of b661637... Updates
-=======
->>>>>>> parent of b661637... Updates
